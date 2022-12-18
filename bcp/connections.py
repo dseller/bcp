@@ -74,9 +74,10 @@ class Connection:
         password: the password for authentication
     """
 
-    def __init__(self, driver: str, host: str, port: int = None, username: str = None, password: str = None):
+    def __init__(self, driver: str, host: str, database: str, port: int = None, username: str = None, password: str = None):
         self.host = host
         self.port = port
+        self.database = database
         self.auth = Auth(username, password)
         self.driver = driver
 
@@ -112,4 +113,4 @@ class Connection:
                 machine = f'{self.host},{self.port}'
             else:
                 machine = self.host
-            return f'-S {machine} {auth_string}'
+            return f'-S {machine} {auth_string} -d {self.database}'
