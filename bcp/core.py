@@ -55,7 +55,7 @@ class BCP:
             my_bcp.load(input_file=file, table='table_name')
         """
         if self.connection.driver == 'mssql':
-            load = mssql.MSSQLLoad(self.connection, input_file, table, qualifier)
+            load = mssql.MSSQLLoad(self.connection, input_file, table, qualifier=qualifier)
         else:
             raise DriverNotSupportedException
         load.execute()
