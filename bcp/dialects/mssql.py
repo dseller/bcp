@@ -68,10 +68,10 @@ class MSSQLLoad(MSSQLBCP, BCPLoad):
         character_data: allows BCP to use character data, defaulted to True
     """
     def __init__(self, connection: 'Connection', file: 'DataFile', table: str, batch_size: int = 10000,
-                 character_data: bool = True):
+                 character_data: bool = True, qualifier: str = None):
         if connection.driver != 'mssql':
             raise DriverNotSupportedException
-        super().__init__(connection, file, table)
+        super().__init__(connection, file, table, qualifier)
         self.batch_size = batch_size
         self.character_data = character_data
 
@@ -99,7 +99,10 @@ class MSSQLLoad(MSSQLBCP, BCPLoad):
         Returns:
              a BCP formatted configuration string
         """
-        return f'{super().config} -b {self.batch_size}'
+        result = f'{super().config} -b {self.batch_size}'
+        if self.qualifier:
+            result += f" -q {self.qualifier}"
+        return result
 
     @property
     def error(self) -> str:

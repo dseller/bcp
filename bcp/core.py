@@ -34,13 +34,14 @@ class BCP:
     def __init__(self, connection: 'Connection'):
         self.connection = connection
 
-    def load(self, input_file: 'DataFile', table: str):
+    def load(self, input_file: 'DataFile', table: str, qualifier: str = None):
         """
         This method provides an interface to the lower level dialect-specific BCP load classes
 
         Args:
             input_file: the file to be loaded into the database
             table: the table in which to land the data
+            qualifier: The string quote qualifier
 
         Example:
 
@@ -54,7 +55,7 @@ class BCP:
             my_bcp.load(input_file=file, table='table_name')
         """
         if self.connection.driver == 'mssql':
-            load = mssql.MSSQLLoad(self.connection, input_file, table)
+            load = mssql.MSSQLLoad(self.connection, input_file, table, qualifier)
         else:
             raise DriverNotSupportedException
         load.execute()

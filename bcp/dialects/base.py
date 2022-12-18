@@ -16,10 +16,11 @@ class BCPLoad(abc.ABC):
         file: the file to be loaded into the database
         table: the table in which to land the data
     """
-    def __init__(self, connection: 'Connection', file: 'DataFile', table: str):
+    def __init__(self, connection: 'Connection', file: 'DataFile', table: str, qualifier: str):
         self.connection = connection
         self.file = file
         self.table = table
+        self.qualifier = qualifier
 
     @abc.abstractmethod
     def execute(self):
